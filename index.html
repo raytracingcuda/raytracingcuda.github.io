@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="description" content="FastAdaSP: Multitask-Adapted Efficient Inference for Large Speech Language Model, improving efficiency and performance of Speech Language Models.">
+  <meta name="keywords" content="FastAdaSP, Speech Language Models, Efficient Inference, Token Reduction">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>FastAdaSP: Multitask-Adapted Efficient Inference for Large Speech Language Model</title>
+
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-PYVRSFMDRL"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+
+    gtag('js', new Date());
+
+    gtag('config', 'G-PYVRSFMDRL');
+  </script>
+
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro" rel="stylesheet">
+  <link rel="stylesheet" href="./static/css/bulma.min.css">
+  <link rel="stylesheet" href="./static/css/fontawesome.all.min.css">
+  <link rel="stylesheet" href="./static/css/index.css">
+  <link rel="icon" href="./static/images/logo.png">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script defer src="./static/js/fontawesome.all.min.js"></script>
+</head>
+<body>
+
+<nav class="navbar" role="navigation" aria-label="main navigation">
+  <div class="navbar-brand">
+    <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+    </a>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="hero-body">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column has-text-centered">
+          <h1 class="title is-1 publication-title">
+            <img src="./static/images/logo.png" alt="FastAdaSP Logo" width="50" height="50">
+            FastAdaSP: Multitask-Adapted Efficient Inference for Large Speech Language Model
+          </h1>
+          <h2 class="subtitle is-4 publication-subtitle" style="color: red;"> 
+            EMNLP 2024
+          </h2>
+          <div class="is-size-5 publication-authors">
+            <span class="author-block">
+              <a href="https://yichen14.github.io/">Yichen Lu</a><sup>1*</sup>,</span>
+            <span class="author-block">
+              <a href="https://www.linkedin.com/in/jiaqi-song-130772242/">Jiaqi Song</a><sup>1*</sup>,</span>
+            <span class="author-block">
+              <a href="https://huckiyang.github.io/">Chao-Han Huck Yang</a><sup>2</sup>,
+            </span>
+            <span class="author-block">
+              <a href="https://sites.google.com/view/shinjiwatanabe">Shinji Watanabe</a><sup>1</sup>,
+            </span>
+          </div>
+
+          <div class="is-size-5 publication-authors">
+            <span class="author-block"><sup>1</sup>Carnegie Mellon University</span>
+            <span class="author-block"><sup>2</sup>NVIDIA Research</span>
+          </div>
+          <div class="is-size-5 publication-authors">
+            <span class="author-block"><sup>*</sup>Equal contribution</span>
+          </div>
+
+          <div class="column has-text-centered">
+            <div class="publication-links">
+              <span class="link-block">
+                <a href="https://arxiv.org/abs/2410.03007" class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fas fa-file-pdf"></i>
+                  </span>
+                  <span>Paper</span>
+                </a>
+              </span>
+              <span class="link-block">
+                <a href="https://github.com/yichen14/FastAdaSP" class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fab fa-github"></i>
+                  </span>
+                  <span>Code</span>
+                  </a>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <!-- Abstract. -->
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Abstract</h2>
+        <div class="content has-text-justified">
+          <p>
+            FastAdaSP is a framework for multitask-adapted efficient inference in large Speech Language Models (SpeechLMs). It incorporates token reduction to optimize memory efficiency, prefilling and decoding speed, providing state-of-the-art results on Dense tasks like Automatic Speech Recognition (ASR) and Speech Translation (ST); Sparse tasks like Emotion Recognition (EM) and Spoken Question Answering (SQA). Unlike other modalities, speech contains unique temporal dependencies that require careful handling, making token reduction more complex. FastAdaSP effectively addresses these challenges by employing a novel weighted token merging strategy that reduces computational costs while maintaining task performance.
+          </p>
+        </div>
+      </div>
+    </div>
+    <!--/ Abstract. -->
+
+    <!-- Motivation. -->
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Motivation of FastAdaSP</h2>
+        <div class="content has-text-justified">
+          <p>
+            With the scaling and advancement of large Speech Language Models like GPT-4o, challenges related to inference latency and memory efficiency remain significant bottlenecks. While many cost-saving techniques for text-only and vision-language models focus on Key-Value (KV) cache compression and token reduction strategies, these methods cannot be directly applied to speech modalities due to the unique characteristics of speech signals.
+          </p>
+          
+        </div>
+      </div>
+    </div>
+    <!--/ Motivation. -->
+
+    <!-- Methodology. -->
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Methodology</h2>
+        <div class="content has-text-justified">
+          <p>
+            FastAdaSP uses a weighted token merging technique to reduce redundancy while maintaining essential information. The framework categorizes tasks into two main types: dense tasks (e.g., Automatic Speech Recognition and Speech Translation) where nearly all input audio tokens are essential, and sparse tasks (e.g., Emotion Recognition and Speaker Verification) where only a few tokens contain the crucial information. To accommodate these different task types, FastAdaSP applies specific token reduction methods tailored to each.
+          </p>
+          <p>
+            For dense tasks, FastAdaSP employs a gradual token merging process to ensure minimal information loss, using strategies such as constant and decay schedules to optimize merging. For sparse tasks, FastAdaSP uses an aggressive token reduction method combined with Transfer Entropy-based layer selection to effectively retain critical information while reducing redundant data. This approach allows FastAdaSP to adapt to different inference requirements without additional training.
+          </p>
+          <p>
+            The core of FastAdaSP's methodology is a weighted token merge process that calculates similarity scores between adjacent audio tokens and merges them based on these weights. This technique preserves important information while discarding redundant elements, significantly improving memory and computational efficiency. Additionally, FastAdaSP incorporates layer selection mechanisms to ensure that token merging is performed at the most appropriate stages of the model, further optimizing performance.
+          </p>
+          <div class="has-text-centered">
+            <img src="./static/images/method.png" alt="Weighted Token Merge Method Diagram" style="max-width: 100%; height: auto; margin-top: 20px;">
+            <p class="is-italic">Figure 1: Diagram illustrating the weighted token merge process in FastAdaSP.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--/ Methodology. -->
+
+    <!-- Experiments & Results. -->
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Experiments & Results</h2>
+        <div class="content has-text-justified">
+          <p>
+            Experimental results on WavLLM and Qwen-Audio demonstrate that FastAdaSP achieves significant improvements in both memory efficiency and computational speed. Specifically, FastAdaSP achieved a 7x increase in memory efficiency and a 1.83x increase in decoding throughput compared to baseline methods, without any degradation in task performance.
+          </p>
+          <p>
+            For dense tasks like Automatic Speech Recognition (ASR), FastAdaSP maintained high accuracy while reducing computational costs by up to 50%. In Speech Translation (ST), the framework effectively balanced the efficiency-performance trade-off, demonstrating only minor degradation in BLEU scores at high reduction levels. For sparse tasks such as Emotion Recognition (ER) and Spoken Question Answer (SQA), FastAdaSP even improved task accuracy by focusing the model's attention on the most informative tokens.
+          </p>
+          <p>
+            The experiments also highlighted the robustness of FastAdaSP's weighted merge strategy, which outperformed traditional token pruning methods by preserving essential content while reducing redundancy. The use of Transfer Entropy-based layer selection further improved the performance of sparse tasks by ensuring that token reduction occurred at optimal stages, minimizing information loss. Overall, FastAdaSP sets a new benchmark in multitask SpeechLM efficiency, combining state-of-the-art performance with practical applicability across multiple speech-related tasks.
+          </p>
+          <p>
+            Computational Cost experiments results show that FastAdaSP can also decrease both pre-filling and decoding latency at about 4% and 50% on A100 and H100 GPU.
+          </p>
+          
+          <!-- Experiment Tables -->
+          <div class="has-text-centered">
+            <img src="./static/images/table1.png" alt="table1" style="max-width: 100%; height: auto; margin-top: 20px;">
+            <p class="has-text-weight-bold">Table 1: Comparison between FastAdaSP with other token reduction methods on WavLLM dense tasks.</p>
+          </div>
+          <div class="has-text-centered">
+            <img src="./static/images/table2.png" alt="table2" style="max-width: 100%; height: auto; margin-top: 20px;">
+            <p class="has-text-weight-bold">Table 2: Comparison between FastAdaSP with other token reduction methods on WavLLM sparse tasks.</p>
+          </div>
+          <div class="has-text-centered">
+            <img src="./static/images/table3.png" alt="table3" style="max-width: 100%; height: auto; margin-top: 20px;">
+            <p class="has-text-weight-bold">Table 3: Long Sequence Computational cost experiments on A100. Long sequence audio samples (120s and 240s) input on WavLLM using one A100 80GB GPU.</p>
+          </div>
+          <div class="has-text-centered">
+            <img src="./static/images/table4.png" alt="table4" style="max-width: 100%; height: auto; margin-top: 20px;">
+            <p class="has-text-weight-bold">Table 4: Long Sequence Computational cost experiments on H100. Long sequence audio samples (120s and 240s) input on WavLLM using one H100 80GB GPU.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--/ Experiments & Results. -->
+  </div>
+<!-- Conclusion. -->
+<section class="section">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Conclusion</h2>
+        <div class="content has-text-justified">
+          <p>
+            FastAdaSP demonstrates that multitask-adapted efficient inference is achievable in large Speech Language Models without sacrificing performance. By leveraging weighted token merging and adaptive layer selection, FastAdaSP significantly reduces computational complexity while maintaining or even improving task accuracy across various speech-related applications. The framework sets a new standard for efficient model adaptation, making it highly suitable for deployment in resource-constrained environments. Future work will focus on expanding the applicability of FastAdaSP to other modalities such as vision. The next stage of this study is to investigate the unified methodology to accelerate both audio and vision modalities  simultaneously in Audio-Visual LLM, which enable more efficient inference for long video understanding.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+</section>
+
+<section class="section" id="BibTeX">
+  <div class="container is-max-desktop content">
+    <h2 class="title">BibTeX</h2>
+    <pre><code>@article{lu2024fastadasp,
+  author    = {Yichen Lu and Jiaqi Song and Chao-Han Huck Yang and Shinji Watanabe},
+  title     = {FastAdaSP: Multitask-Adapted Efficient Inference for Large Speech Language Model},
+  journal   = {EMNLP},
+  year      = {2024},
+}</code></pre>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="container">
+    <div class="content has-text-centered">
+      <p>
+        <img src="./static/images/logo.png" alt="FastAdaSP Logo" width="200" height="200">
+      </p>
+      <p>
+        This website is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.
+      </p>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
