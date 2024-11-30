@@ -99,6 +99,15 @@
               </span>
 
               <span class="link-block">
+                <a href="./static/assets/poster.pdf" class="external-link button is-normal is-rounded is-dark" target="_blank">                  
+                  <span class="icon">
+                      <i class="fas fa-file-pdf"></i>
+                  </span>
+                  <span>Poster</span>
+                </a>
+              </span>
+
+              <span class="link-block">
                 <a href="https://github.com/Jiaqi1song/RayTracing" class="external-link button is-normal is-rounded is-dark" target="_blank">
                   <span class="icon">
                       <i class="fab fa-github"></i>
@@ -122,7 +131,7 @@
         <h2 class="title is-3">Description</h2>
         <div class="content has-text-justified">
           <p>
-            In this project, we implement the ray tracing in OpenMP and CUDA.
+            In this project, we aim to implement a GPU-based ray tracer inspired by the "Ray Tracing in One Weekend" series. We will use the CPU code that the book provides as our start code and baseline of performance, and incorporate basic OpenMP parallelism into the code. Our main focus will be transforming the code on GPU using CUDA and compare the performance of the single-core raw CPU code, the OpenMP-enhanced multi-core version, and the CUDA implementation.
           </p>
         </div>
       </div>
@@ -133,10 +142,10 @@
     <!-- Images. -->
     <div class="columns is-centered">
       <div class="column is-four-fifths">
-        <h2 class="title is-3">Rendered Images</h2>
+        <h2 class="title is-3">Rendered Images and Animations</h2>
         <div class="content has-text-justified">
           <p>
-            We use 3 animations and 4 static images to test our implementation.
+            We use 3 animations and 3 static images to evaluation the performance and visual quality of our implementation.
           </p>
         </div>
         
@@ -185,32 +194,30 @@
           </div>
         </div>
 
-        <!-- Two rows of images, each row with two columns -->
-        <div class="columns">
-          <div class="column">
-            <figure class="image">
-              <img src="./static/images/cornell_box.png" alt="cornell box">
-            </figure>
-          </div>
-          <div class="column">
-            <figure class="image">
-              <img src="./static/images/cornell_smoke.png" alt="cornell smoke">
-            </figure>
-          </div>
-        </div>
-        
         <div class="columns">
           <div class="column">
             <figure class="image">
               <img src="./static/images/first_scene.png" alt="first scene">
             </figure>
           </div>
+        </div>
+
+        <div class="columns">
+          <div class="column">
+            <figure class="image">
+              <img src="./static/images/cornell_box.png" alt="cornell box">
+            </figure>
+          </div>
+        </div>
+
+        <div class="columns">
           <div class="column">
             <figure class="image">
               <img src="./static/images/final_scene.png" alt="final scene">
             </figure>
           </div>
         </div>
+        
       </div>
     </div>
 
