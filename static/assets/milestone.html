@@ -1,0 +1,269 @@
+<h1 id="project-milestone-ray-tracing-in-cuda">15618 Project Milestone – Ray Tracing in CUDA</h1>
+<p>Jiaqi Song (<a href="mailto:jiaqison@andrew.cmu.edu">jiaqison@andrew.cmu.edu</a>)</p>
+<p>Xinping Luo (<a href="mailto:xinpingl@andrew.cmu.edu">xinpingl@andrew.cmu.edu</a>)</p>
+<h2 id="url-ray-tracing-in-cuda-raytracingcuda.github.io">URL: <a href="https://raytracingcuda.github.io/">Ray Tracing in CUDA (raytracingcuda.github.io)</a></h2>
+<h2 id="summary-of-work-completed-so-far">Summary of Work Completed So Far</h2>
+<p>We have made substantial progress on our project, achieving several key milestones:</p>
+<ol type="1">
+<li><strong>CPU Implementation</strong>:</li>
+</ol>
+<ul>
+<li><p>Completed the single-core and multi-core CPU (OpenMP) implementations for all three books: <em>Ray Tracing in one Weekend</em>, <em>Ray Tracing the next week</em>, <em>Ray Tracing the Rest of Your Life</em>.</p></li>
+<li><p>Integrated all proposed features, including Bounding Volume Hierarchies (BVH) and Monte Carlo Sampling, as outlined in the proposal.</p></li>
+<li><p>Added three animations showcasing a moving camera and moving objects.</p></li>
+<li><p>Designed and implemented three distinct test scenes to evaluate performance and visual quality.</p></li>
+</ul>
+<ol start="2" type="1">
+<li><strong>CUDA Implementation</strong>:</li>
+</ol>
+<ul>
+<li><p>Successfully developed the CUDA versions of the first two books: <em>Ray Tracing in one Weekend</em>, <em>Ray Tracing the next week</em>.</p></li>
+<li><p>Achieved significant speedups with the CUDA implementation compared to the single-core and multi-core CPU (OpenMP) versions, highlighting the benefits of GPU acceleration.</p></li>
+<li><p>Recreated the same three test scenes in the CUDA implementation to benchmark performance and ensure feature parity.</p></li>
+</ul>
+<h2 id="progress-towards-goals-and-deliverables">Progress Towards Goals and Deliverables</h2>
+<p>Based on our progress so far, we believe that we can achieve the goals and deliverables outlined in the proposal. Here’s a summary of our current status:</p>
+<ol type="1">
+<li><strong>Implemented Functionality on CPU</strong>:</li>
+</ol>
+<p>We have successfully developed a fully functional ray tracing engine with both single-core and multi-core CPU versions. The engine supports:</p>
+<ul>
+<li><p>Rendering of basic 3D objects</p></li>
+<li><p>Basic shading</p></li>
+<li><p>Light reflection, refraction, emission on basic materials</p></li>
+<li><p>Basic textures and perlin noise</p></li>
+<li><p>Basic light sources</p></li>
+<li><p>Monte Carlo Sampling for realistic lighting</p></li>
+<li><p>Bounding Volume Hierarchies (BVH) for optimized ray-object intersection checks</p></li>
+</ul>
+<p>Additionally, the engine is capable of rendering more complex scenes and supports animations with moving cameras and moving objects.</p>
+<ol start="2" type="1">
+<li><strong>CUDA Implementation Status</strong>:</li>
+</ol>
+<p>We have established a functional CUDA implementation that matches the CPU version’s basic features. Tasks remaining for the CUDA version:</p>
+<ul>
+<li><p>Monte Carlo Sampling</p></li>
+<li><p>BVH integration</p></li>
+<li><p>Animation support</p></li>
+</ul>
+<p>These are the final components needed to achieve feature in this project.</p>
+<ol start="3" type="1">
+<li><strong>Goals and Plan for the Poster Session and Final Report</strong>:</li>
+</ol>
+<p>Our objective is to complete the full CUDA implementation with all functionalities described in the proposal. Beyond the baseline, we aim to explore and integrate additional optimization techniques to further enhance rendering performance. In the Poster Session, we will present a detailed rendering time comparison table, showcasing the performance differences between the single-core CPU, multi-core CPU, and GPU implementations of the ray tracer. The results will highlight the speedup achieved through parallelism and GPU acceleration. We also plan to include visual demonstrations of rendered scenes and animations to illustrate the quality and performance of our ray tracing engine.</p>
+<h2 id="preliminary-results">Preliminary Results</h2>
+<p>In the milestone report, we conducted a speed test based on the current implementation. All rendered images are 600 × 600 in size, with 200 samples per pixel and a maximum depth of 20. This preliminary experiment was performed on GHC machines equipped with an Intel Core i7-9700 8-Core CPU and an NVIDIA GeForce RTX 2080 8GB GPU. In future experiments, we will test our ray tracer on different hardware to evaluate its performance across various configurations.</p>
+<h3 id="bvh-effectiveness-on-cpu">BVH Effectiveness on CPU</h3>
+<p>First, we evaluated the effectiveness of BVH on the CPU using an OpenMP-enabled multi-core implementation running on 8 threads.</p>
+<h4 id="render-time-on-cpu-with-and-without-bvh-optimization-ms"><strong>Render Time on CPU with and without BVH Optimization (ms)</strong></h4>
+<table>
+<thead>
+<tr class="header">
+<th>Scene</th>
+<th>Number of Objects</th>
+<th>No BVH</th>
+<th>BVH</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>First Scene</td>
+<td>488</td>
+<td>2,742,760</td>
+<td>532,700</td>
+</tr>
+<tr class="even">
+<td>Cornel Box</td>
+<td>13</td>
+<td>231,167</td>
+<td>261,806</td>
+</tr>
+<tr class="odd">
+<td>Final Scene</td>
+<td>3,409</td>
+<td>10,638,643</td>
+<td>364,221</td>
+</tr>
+</tbody>
+</table>
+<p>As the results show, BVH optimization significantly improves performance, especially in scenes with a large number of objects. For instance, the final scene with BVH achieved a <strong>30x speedup</strong> compared to the no-BVH implementation. This demonstrates that BVH is most effective in complex scenes with numerous objects. Therefore, for all subsequent CPU-based experiments, we used BVH optimization.</p>
+<h3 id="multi-core-cpu-performance">Multi-Core CPU Performance</h3>
+<p>Next, we tested the performance of the single-core and multi-core CPU implementations. The speedup achieved by increasing the number of threads is shown below.</p>
+<h4 id="render-time-on-single-core-and-multi-core-cpu-ms"><strong>Render Time on Single-Core and Multi-Core CPU (ms)</strong></h4>
+<table>
+<thead>
+<tr class="header">
+<th>Scene</th>
+<th>1 Thread</th>
+<th>2 Threads</th>
+<th>4 Threads</th>
+<th>8 Threads</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>First Scene</td>
+<td>1,588,860</td>
+<td>855,407</td>
+<td>542,649</td>
+<td>532,700</td>
+</tr>
+<tr class="even">
+<td>Cornel Box</td>
+<td>772,366</td>
+<td>434,136</td>
+<td>261,806</td>
+<td>237,790</td>
+</tr>
+<tr class="odd">
+<td>Final Scene</td>
+<td>1,127,800</td>
+<td>605,119</td>
+<td>382,038</td>
+<td>364,221</td>
+</tr>
+</tbody>
+</table>
+<p>The results indicate that performance improves as the number of threads increases. However, the speedup is not perfectly linear, likely due to workload imbalance between pixels. This uneven distribution of work reduces the efficiency of multi-core CPU parallelism.</p>
+<h3 id="comparing-cpu-and-gpu-performance">Comparing CPU and GPU Performance</h3>
+<p>Finally, we compared the rendering times of the single-core CPU, multi-core CPU, and CUDA (GPU) implementations across all three scenes.</p>
+<h4 id="render-time-on-cpu-and-gpu-ms"><strong>Render Time on CPU and GPU (ms)</strong></h4>
+<table>
+<thead>
+<tr class="header">
+<th>Method</th>
+<th>First Scene</th>
+<th>Cornel Box</th>
+<th>Final Scene</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Baseline + BVH (CPU)</td>
+<td>1,588,860</td>
+<td>772,366</td>
+<td>1,127,800</td>
+</tr>
+<tr class="even">
+<td>OpenMP (8 threads) + BVH (CPU)</td>
+<td>532,700</td>
+<td>237,790</td>
+<td>364,221</td>
+</tr>
+<tr class="odd">
+<td>CUDA (no BVH) (GPU)</td>
+<td>19,054</td>
+<td>11,096</td>
+<td>334,867</td>
+</tr>
+</tbody>
+</table>
+<p>Even without BVH optimization, the CUDA implementation outperforms the multi-core CPU implementation, achieving a <strong>20x speedup</strong> in simpler scenes. However, in the final scene with approximately 3,500 objects, the lack of BVH on CUDA significantly impacts performance, making it only slightly faster than the multi-core CPU with BVH version. This highlights the importance of BVH for complex scenes.</p>
+<p>The superior performance of the CUDA version stems from the highly parallelizable nature of ray tracing, which is well-suited to the GPU’s architecture. In future work, we will implement BVH on CUDA to further enhance its performance in complex scenes.</p>
+<h3 id="visual-results">Visual Results</h3>
+<p>Below are the rendered images for all three scenes on both CPU and GPU implementations.</p>
+<ol type="1">
+<li><strong>first scene</strong>:</li>
+</ol>
+<figure>
+<img src="../images/first_scene.png" alt="first scene" width="300" height="300" /><figcaption>first scene</figcaption>
+</figure>
+<ol start="2" type="1">
+<li><strong>cornell box</strong>:</li>
+</ol>
+<figure>
+<img src="../images/cornell_box.png" alt="cornell box" width="300" height="300" /><figcaption>cornell box</figcaption>
+</figure>
+<ol start="3" type="1">
+<li><strong>final scene</strong>:</li>
+</ol>
+<figure>
+<img src="../images/final_scene.png" alt="final scene" width="300" height="300" /><figcaption>final scene</figcaption>
+</figure>
+<h2 id="issues-encountered">Issues Encountered</h2>
+<ol type="1">
+<li><strong>Dynamic Memory Allocation in CUDA</strong>:</li>
+</ol>
+<p>Both Monte Carlo Sampling and BVH require dynamic memory allocation during the rendering process. In CUDA, this presents a significant challenge, as dynamic memory allocation on the GPU can lead to unintended memory access issues and segmentation faults if not handled properly. Efficient memory management strategies, such as pre-allocating memory buffers or using custom memory pools, are essential to mitigate these risks and maintain stability.</p>
+<ol start="2" type="1">
+<li><strong>Implementing BVH on CUDA</strong>:</li>
+</ol>
+<p>The BVH structure heavily relies on recursion for tree traversal, which can lead to stack overflows in a GPU environment due to limited stack size. To address this, recursive operations must be replaced with iterative approaches using explicit stacks or queues that GPU threads can manage. Designing and optimizing such iterative implementations is complex and requires careful attention to memory usage and thread synchronization to ensure both performance and correctness.</p>
+<h2 id="revised-schedule">Revised Schedule</h2>
+<p>Based on our current progress, we have updated the schedule to ensure the completion of the project. The revised timeline is as follows:</p>
+<ul>
+<li><p>11/4 - 11/10 </p>
+<ul class="task-list">
+<li><p><input type="checkbox" disabled="" checked="" />
+Discuss project ideas with instructors (Finished 11/4)</p></li>
+<li><p><input type="checkbox" disabled="" checked="" />
+Initial website design (Finished 11/9)</p></li>
+<li><p><input type="checkbox" disabled="" checked="" />
+Prepare start code of “Ray Tracing in One Weekend” (Finished 11/4)</p></li>
+</ul></li>
+<li><p>11/11 - 11/17</p>
+<ul class="task-list">
+<li><p><input type="checkbox" disabled="" checked="" />
+Write project proposal (due 11/13)</p></li>
+<li><p><input type="checkbox" disabled="" checked="" />
+Add OpenMP support to CPU code if applicable (Finished 11/14)</p></li>
+<li><p><input type="checkbox" disabled="" checked="" />
+Program the corresponding CUDA code of “Ray Tracing in one Weekend” (Finished 11/16)</p></li>
+</ul></li>
+<li><p>11/18 - 11/24</p>
+<ul class="task-list">
+<li><p><input type="checkbox" disabled="" checked="" />
+Finish coding of book I (Finished 11/16)</p></li>
+<li><p><input type="checkbox" disabled="" checked="" />
+Add start code of “Ray Tracing The Next Week” (Finished 11/17)</p></li>
+<li><p><input type="checkbox" disabled="" checked="" />
+Add OpenMP support to new CPU code if applicable (Finished 11/17)</p></li>
+<li><p><input type="checkbox" disabled="" checked="" />
+Program the corresponding CUDA code of “Ray Tracing the next week” (Finished 11/18)</p></li>
+<li><p><input type="checkbox" disabled="" checked="" />
+Add some features in “Ray Tracing the Rest of Your Life” (Finished 11/19)</p></li>
+<li><p><input type="checkbox" disabled="" checked="" />
+Add OpenMP support to new CPU code if applicable (Finished 11/19)</p></li>
+<li><p><input type="checkbox" disabled="" checked="" />
+Animation on CPU (moving camera and moving objects)</p></li>
+</ul></li>
+<li><p>11/25 - 12/1</p>
+<ul class="task-list">
+<li><p><input type="checkbox" disabled="" checked="" />
+Finish coding of book II (Finished 11/17)</p></li>
+<li><p><input type="checkbox" disabled="" checked="" />
+Finish coding of new features from book III (Finished 11/19)</p></li>
+<li><p><input type="checkbox" disabled="" checked="" />
+Perform experiments on existing code and compare the performance of three versions of code (Finished 11/21)</p></li>
+<li><p><input type="checkbox" disabled="" checked="" />
+Write milestone report (due 12/2) (Finished 11/30)</p></li>
+<li><p><input type="checkbox" disabled="" checked="" />
+Update the website content (Finished 11/30)</p></li>
+</ul></li>
+<li><p>12/2 - 12/8</p>
+<ul class="task-list">
+<li><p><input type="checkbox" disabled="" />
+Program the corresponding CUDA code of Monte Carlo Samplings (Xinping Luo)</p></li>
+<li><p><input type="checkbox" disabled="" />
+Program the corresponding CUDA code of BVH (Jiaqi Song)</p></li>
+<li><p><input type="checkbox" disabled="" />
+Animation on CUDA (moving camera and moving objects) (Jiaqi Song)</p></li>
+<li><p><input type="checkbox" disabled="" />
+Perform experiments on final code and compare the performance of three versions of code (Jiaqi Song, Xinping Luo)</p></li>
+<li><p><input type="checkbox" disabled="" />
+Do the “hope to do things” if there is still time (Xinping Luo)</p></li>
+</ul></li>
+<li><p>12/8 - 12/15</p>
+<ul class="task-list">
+<li><p><input type="checkbox" disabled="" />
+Complete coding (Jiaqi Song, Xinping Luo)</p></li>
+<li><p><input type="checkbox" disabled="" />
+Prepare poster (Jiaqi Song, Xinping Luo)</p></li>
+<li><p><input type="checkbox" disabled="" />
+Attend poster session (TBD) (Jiaqi Song, Xinping Luo)</p></li>
+<li><p><input type="checkbox" disabled="" />
+Write final project report (due 12/15) (Jiaqi Song, Xinping Luo)</p></li>
+<li><p><input type="checkbox" disabled="" />
+Update the website content (Jiaqi Song, Xinping Luo)</p></li>
+</ul></li>
+</ul>
